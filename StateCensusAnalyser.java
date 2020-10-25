@@ -23,16 +23,21 @@ public class StateCensusAnalyser {
 		}
 	}
 	
+	private <E> int getCount(Iterator<E> iterator) {
+		int countOfRecord = 0;
+		while (iterator.hasNext()) {
+			countOfRecord++;
+			E censusData = iterator.next();
+		}
+		return countOfRecord;
+	}
+	
 	public int loadCSVData(String csvFile) throws CensusAnalyserException, IOException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFile));
 			Iterator<CSVStateCensus> censusIterator = this.getCSVFileIterator(reader, CSVStateCensus.class);
-			int countOfRecord = 0;
-			while (censusIterator.hasNext()) {
-				countOfRecord++;
-				@SuppressWarnings("unused")
-				CSVStateCensus censusData = censusIterator.next();
-			}
+			int countOfRecord = this.getCount(censusIterator);
+	
 			return countOfRecord;
 		} 
 		catch (IOException e) {
@@ -48,12 +53,7 @@ public class StateCensusAnalyser {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFile));
 			Iterator<CSVStateCode> censusIterator = this.getCSVFileIterator(reader, CSVStateCode.class);
-			int countOfRecord = 0;
-			while (censusIterator.hasNext()) {
-				countOfRecord++;
-				@SuppressWarnings("unused")
-				CSVStateCode censusData = censusIterator.next();
-			}
+			int countOfRecord = this.getCount(censusIterator);
 			return countOfRecord;
 		} 
 		catch (IOException e) {
