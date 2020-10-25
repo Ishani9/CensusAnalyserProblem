@@ -83,10 +83,10 @@ public class CensusAnalyserTest {
 	 */
 	@Test
 	public void givenStateCodeCSVFile_IfMatchNumberOfRecords_ShouldReturnTrue() throws IOException {
-		StateCodeAnalyzer analyser = new StateCodeAnalyzer();
+		StateCensusAnalyser analyser = new StateCensusAnalyser();
 		int count = 0;
 		try {
-			count = analyser.loadCSVData(STATESCODE);
+			count = analyser.loadCSVCode(STATESCODE);
 		} 
 		catch (CensusAnalyserException e) {
 			e.printStackTrace();
@@ -96,10 +96,10 @@ public class CensusAnalyserTest {
 	
 	@Test
 	public void givenCodeCSVFile_IfWrongFile_ShouldThrowError() throws IOException {
-		StateCodeAnalyzer analyser = new StateCodeAnalyzer();
+		StateCensusAnalyser analyser = new StateCensusAnalyser();
 		int count = 0;
 		try {
-			count = analyser.loadCSVData(WRONG_FILE);
+			count = analyser.loadCSVCode(WRONG_FILE);
 		} catch (CensusAnalyserException e) {
 			e.printStackTrace();
 			assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
@@ -109,10 +109,10 @@ public class CensusAnalyserTest {
 	
 	@Test
 	public void givenCodeCSVFile_WhenFileCorrect_ButExtensionIncorrect_ShouldThrowError() throws IOException {
-		StateCodeAnalyzer analyser = new StateCodeAnalyzer();
+		StateCensusAnalyser analyser = new StateCensusAnalyser();
 		int count = 0;
 		try {
-			count = analyser.loadCSVData(WRONG_EXTENSION);
+			count = analyser.loadCSVCode(WRONG_EXTENSION);
 		} catch (CensusAnalyserException e) {
 			e.printStackTrace();
 			assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
@@ -121,10 +121,10 @@ public class CensusAnalyserTest {
 
 	@Test
 	public void givenCodeCSVFile_WhenFileCorrect_ButDelimiterIncorrect_ShouldThrowError() throws IOException {
-		StateCodeAnalyzer analyser = new StateCodeAnalyzer();
+		StateCensusAnalyser analyser = new StateCensusAnalyser();
 		int count = 0;
 		try {
-			count = analyser.loadCSVData(STATESCODE);
+			count = analyser.loadCSVCode(STATESCODE);
 		} catch (CensusAnalyserException e) {
 			e.printStackTrace();
 			assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
@@ -133,10 +133,10 @@ public class CensusAnalyserTest {
 
 	@Test
 	public void givenCodeCSVFile_WhenFileCorrect_ButHeaderIncorrect_ShouldThrowError() throws IOException {
-		StateCodeAnalyzer analyser = new StateCodeAnalyzer();
+		StateCensusAnalyser analyser = new StateCensusAnalyser();
 		int count = 0;
 		try {
-			count = analyser.loadCSVData(USCENSUSFILE);
+			count = analyser.loadCSVCode(USCENSUSFILE);
 		} catch (CensusAnalyserException e) {
 			e.printStackTrace();
 			assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE, e.type);

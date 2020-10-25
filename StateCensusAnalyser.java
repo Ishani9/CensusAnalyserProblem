@@ -10,20 +10,49 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class StateCensusAnalyser {
+	
+	private <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
+		try {
+			CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<E>(reader);
+			csvToBeanBuilder.withType(csvClass);
+			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+			CsvToBean<E> csvToBean = csvToBeanBuilder.build();
+			return csvToBean.iterator();
+		} catch (IllegalStateException e) {
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+		}
+	}
+	
 	public int loadCSVData(String csvFile) throws CensusAnalyserException, IOException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(csvFile));
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			CsvToBeanBuilder<CSVStateCensus> csvToBeanBuilder = new CsvToBeanBuilder(reader);
-			csvToBeanBuilder.withType(CSVStateCensus.class);
-			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-			CsvToBean<CSVStateCensus> csvToBean = csvToBeanBuilder.build();
-			Iterator<CSVStateCensus> censusIterator = csvToBean.iterator();
+			Iterator<CSVStateCensus> censusIterator = this.getCSVFileIterator(reader, CSVStateCensus.class);
 			int countOfRecord = 0;
 			while (censusIterator.hasNext()) {
 				countOfRecord++;
 				@SuppressWarnings("unused")
 				CSVStateCensus censusData = censusIterator.next();
+			}
+			return countOfRecord;
+		} 
+		catch (IOException e) {
+			throw new CensusAnalyserException(e.getMessage(),
+					CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+		}
+		catch (RuntimeException e) {
+			throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.INCORRECT_FILE);
+		}
+	}
+	
+	public int loadCSVCode(String csvFile) throws CensusAnalyserException, IOException {
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get(csvFile));
+			Iterator<CSVStateCode> censusIterator = this.getCSVFileIterator(reader, CSVStateCode.class);
+			int countOfRecord = 0;
+			while (censusIterator.hasNext()) {
+				countOfRecord++;
+				@SuppressWarnings("unused")
+				CSVStateCode censusData = censusIterator.next();
 			}
 			return countOfRecord;
 		} 
