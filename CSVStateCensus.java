@@ -1,7 +1,19 @@
 package gradleAssignment;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class CSVStateCensus {
-	public static void main(String[] args) {
-		System.out.println("Welcome to Indian State Census analyser");
-	}
+	
+	@CsvBindByName(column = "State")
+	public String state;
+
+	@CsvBindByName(column = "Population", required = true)
+	public String population;
+
+	@CsvBindByName(column = "AreaInSqKm")
+	public String areaInSqKm;
+
+	@CsvBindByName(column = "DensityPerSqKm", required = true)
+	public String densityPerSqKm;
+	
 }
