@@ -4,6 +4,7 @@ package gradleAssignment;
 public class CensusAnalyserException extends Exception {
 	public enum ExceptionType {
 		INCORRECT_FILE,
+		UNABLE_TO_PARSE,
 		CENSUS_FILE_PROBLEM;
 	}
 

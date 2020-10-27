@@ -11,6 +11,10 @@ public class CSVStateCode {
 	
 	@CsvBindByName(column = "TIN",required = true)
 	public String TIN;
-
+	
+	@Override
+	public String toString() {
+		return "StateCodeCSV [state=" + state + ", stateCode=" + stateCode + "]";
+	}
 	
 }
